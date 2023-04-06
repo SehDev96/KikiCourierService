@@ -1,5 +1,7 @@
 package main.java.com.kiki.constants;
 
+import main.java.com.kiki.model.PackageDetails;
+
 public class Coupons {
 
     public enum OfferCode {
@@ -52,13 +54,13 @@ public class Coupons {
     public static final Coupons COUPON_OFR002 = new Coupons(OfferCode.OFR002, 0.07, 50, 150, 100, 250);
     public static final Coupons COUPON_OFR003 = new Coupons(OfferCode.OFR003, 0.05, 50, 250, 10, 150);
 
-//    public boolean isCouponApplicable(PackageDetailsInput packageDetailsInput){
-//        return (packageDetailsInput.getDistance() >= minDistance &&
-//                packageDetailsInput.getDistance() <= maxDistance &&
-//                packageDetailsInput.getPackageWeight() >=minWeight &&
-//                packageDetailsInput.getPackageWeight() <= maxWeight
-//        );
-//    }
+    public boolean isCouponApplicable(PackageDetails packageDetails){
+        return (packageDetails.getPackageDistance() >= minDistance &&
+                packageDetails.getPackageWeight() <= maxDistance &&
+                packageDetails.getPackageWeight() >=minWeight &&
+                packageDetails.getPackageWeight() <= maxWeight
+        );
+    }
 
     public static boolean couponOfferExists(String offerCodeString) {
         boolean exists = false;
