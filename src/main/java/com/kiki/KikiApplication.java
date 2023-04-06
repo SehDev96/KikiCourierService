@@ -1,17 +1,18 @@
 package main.java.com.kiki;
 
 import main.java.com.kiki.model.DeliveryRequest;
+import main.java.com.kiki.model.DeliverySummary;
+import main.java.com.kiki.service.DeliveryService;
 
 import java.util.Scanner;
 
 public class KikiApplication {
     public static void main(String[] args) {
-//        String userInput = getUserInput().toString();
-        String inputString = "100 3\n" +
-                "PKG1 5 5 OFR001\n" +
-                "PKG2 15 5 OFR002\n" +
-                "PKG3 10 100 OFR003\n";
+        String inputString = getUserInput().toString();
         DeliveryRequest deliveryRequest = DeliveryRequest.getInstance().parseDeliveryRequestFromString(inputString);
+        DeliveryService deliveryService = new DeliveryService();
+        deliveryService.calculateDeliveryCost(deliveryRequest);
+        System.out.println(DeliverySummary.getInstance().toString());
     }
 
     private static StringBuilder getUserInput() {
