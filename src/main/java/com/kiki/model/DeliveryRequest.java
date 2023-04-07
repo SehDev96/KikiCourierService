@@ -1,6 +1,7 @@
 package main.java.com.kiki.model;
 
 import main.java.com.kiki.constants.Coupons;
+import main.java.com.kiki.utils.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,12 @@ public class DeliveryRequest {
     private int baseDeliveryCost;
     private int numberOfPackages;
     private List<PackageDetails> packageDetailsList;
+
+    private int numberOfVehicles;
+
+    private int vehicleMaxSpeed;
+
+    private int vehicleMaxCarriableWeight;
 
     public static DeliveryRequest getInstance() {
         if (deliveryRequest == null) {
@@ -31,6 +38,19 @@ public class DeliveryRequest {
         String[] inputStringArray = inputString.split("\n");
         if (inputStringArray.length > 0) {
             DeliveryRequest deliveryRequest = DeliveryRequest.getInstance();
+
+            // last line of inputStringArray becomes the deciding factor if the input contains vehicle details
+            String lastLine = inputStringArray[inputStringArray.length-1];
+            String[] lastLineArray = lastLine.split(" ");
+            if(lastLineArray.length==3){
+                if(ArrayUtils.isValidIntArray(lastLineArray)){
+                    deliveryRequest.setNumberOfVehicles(Integer.parseInt(lastLineArray[0]));
+                    deliveryRequest.setVehicleMaxSpeed(Integer.parseInt(lastLineArray[1]));
+                    deliveryRequest.setVehicleMaxCarriableWeight(Integer.parseInt(lastLineArray[2]));
+                    inputStringArray = ArrayUtils.removeLastElement(inputStringArray);
+                }
+            }
+
             String deliveryParameters = inputStringArray[0];
             String[] deliveryParametersArray = deliveryParameters.split(" ");
             if (deliveryParametersArray.length < 2)
@@ -90,5 +110,29 @@ public class DeliveryRequest {
 
     public void setPackageDetailsList(List<PackageDetails> packageDetailsList) {
         this.packageDetailsList = packageDetailsList;
+    }
+
+    public int getNumberOfVehicles() {
+        return numberOfVehicles;
+    }
+
+    public void setNumberOfVehicles(int numberOfVehicles) {
+        this.numberOfVehicles = numberOfVehicles;
+    }
+
+    public int getVehicleMaxSpeed() {
+        return vehicleMaxSpeed;
+    }
+
+    public void setVehicleMaxSpeed(int vehicleMaxSpeed) {
+        this.vehicleMaxSpeed = vehicleMaxSpeed;
+    }
+
+    public int getVehicleMaxCarriableWeight() {
+        return vehicleMaxCarriableWeight;
+    }
+
+    public void setVehicleMaxCarriableWeight(int vehicleMaxCarriableWeight) {
+        this.vehicleMaxCarriableWeight = vehicleMaxCarriableWeight;
     }
 }

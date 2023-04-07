@@ -35,6 +35,28 @@ public class KikiApplicationTest {
     }
 
     @Test
+    public void testUserInputParsingWithVehicleDetails(){
+        String inputString = "100 5\n" +
+                "PKG1 50 30 OFR001\n" +
+                "PKG2 75 125 OFR008\n" +
+                "PKG3 175 100 OFR003\n" +
+                "PKG4 110 60 OFR002\n" +
+                "PKG5 155 95 NA\n" +
+                "2 70 200";
+        DeliveryRequest deliveryRequest = DeliveryRequest.getInstance().parseDeliveryRequestFromString(inputString);
+        assertEquals(100,deliveryRequest.getBaseDeliveryCost());
+        assertEquals(5,deliveryRequest.getNumberOfPackages());
+        assertEquals("PKG1",deliveryRequest.getPackageDetailsList().get(0).getPackageId());
+        assertEquals(50,deliveryRequest.getPackageDetailsList().get(0).getPackageWeight());
+        assertEquals(30,deliveryRequest.getPackageDetailsList().get(0).getPackageDistance());
+        assertEquals("OFR001",deliveryRequest.getPackageDetailsList().get(0).getCouponCode());
+        assertEquals(2,deliveryRequest.getNumberOfVehicles());
+        assertEquals(70,deliveryRequest.getVehicleMaxSpeed());
+        assertEquals(200, deliveryRequest.getVehicleMaxCarriableWeight());
+
+    }
+
+    @Test
     public void testCalculateDeliveryCostService(){
         String inputString = "100 3\n" +
                 "PKG1 5 5 OFR001\n" +
