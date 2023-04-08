@@ -20,4 +20,14 @@ public class Shipment {
     public void setPackages(List<PackageDetails> packages) {
         this.packages = packages;
     }
+
+    public int getFurthestPackageDistance(){
+        int distance = 0;
+        for(PackageDetails packageDetails:this.packages){
+            if(packageDetails.getPackageDistance()>distance){
+                distance = packageDetails.getPackageDistance();
+            }
+        }
+        return distance;
+    }
 }

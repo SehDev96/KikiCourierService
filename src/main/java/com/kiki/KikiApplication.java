@@ -2,8 +2,11 @@ package main.java.com.kiki;
 
 import main.java.com.kiki.model.DeliveryRequest;
 import main.java.com.kiki.model.DeliverySummary;
+import main.java.com.kiki.model.Shipment;
 import main.java.com.kiki.service.DeliveryService;
+import main.java.com.kiki.service.ShipmentManager;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class KikiApplication {
@@ -12,6 +15,11 @@ public class KikiApplication {
         DeliveryRequest deliveryRequest = DeliveryRequest.getInstance().parseDeliveryRequestFromString(inputString);
         DeliveryService deliveryService = new DeliveryService();
         deliveryService.calculateDeliveryCost(deliveryRequest);
+        if(deliveryRequest.getNumberOfVehicles()>0){
+            ShipmentManager shipmentManager = new ShipmentManager();
+            List<Shipment> shipmentList = shipmentManager.sortPackagesIntoShipments(deliveryRequest.getPackageDetailsList());
+            deliveryService.calculateDeliveryTime(shipmentList);
+        }
         System.out.println(DeliverySummary.getInstance().toString());
     }
 

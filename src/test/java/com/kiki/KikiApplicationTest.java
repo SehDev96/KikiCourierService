@@ -111,6 +111,31 @@ public class KikiApplicationTest {
     }
 
     @Test
+    public void testCalculateDeliveryTimeService(){
+        String inputString = "100 5\n" +
+                "PKG1 50 30 OFR001\n" +
+                "PKG2 75 125 OFR008\n" +
+                "PKG3 175 100 OFR003\n" +
+                "PKG4 110 60 OFR002\n" +
+                "PKG5 155 95 NA\n" +
+                "2 70 200";
+        DeliveryRequest deliveryRequest = DeliveryRequest.getInstance().parseDeliveryRequestFromString(inputString);
+        ShipmentManager shipmentManager = new ShipmentManager();
+        List<Shipment> shipmentList = shipmentManager.sortPackagesIntoShipments(deliveryRequest.getPackageDetailsList());
+
+        DeliveryService deliveryService = new DeliveryService();
+        deliveryService.calculateDeliveryCost(deliveryRequest);
+        deliveryService.calculateDeliveryTime(shipmentList);
+
+        assertEquals(3.98,DeliveryOutput.getDeliveryOutputByPackageId("PKG1").getDeliveryTime(),0.02);
+        assertEquals(1.78,DeliveryOutput.getDeliveryOutputByPackageId("PKG2").getDeliveryTime(),0.02);
+        assertEquals(1.42,DeliveryOutput.getDeliveryOutputByPackageId("PKG3").getDeliveryTime(),0.02);
+        assertEquals(0.85,DeliveryOutput.getDeliveryOutputByPackageId("PKG4").getDeliveryTime(),0.02);
+        assertEquals(4.19,DeliveryOutput.getDeliveryOutputByPackageId("PKG5").getDeliveryTime(),0.02);
+
+    }
+
+    @Test
     public void testOutputSummary(){
         DeliveryOutput deliveryOutput = new DeliveryOutput("PKG1",0,175);
         DeliveryOutput deliveryOutput2 = new DeliveryOutput("PKG2",0,275);
