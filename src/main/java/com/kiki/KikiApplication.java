@@ -27,7 +27,7 @@ public class KikiApplication {
             } catch (Exception e){
                 System.err.println("Error: " + e.getMessage());
                 if(e instanceof IllegalArgumentException){
-                    System.out.println("Please input the details according to standard format.");
+                    System.out.println("Please input the delivery request according to standard format.");
                     System.out.println("Standard format: ");
                     System.out.println("------------------------------------------------");
                     System.out.println("base_delivery_cost no_of_packges\n" +
@@ -43,7 +43,7 @@ public class KikiApplication {
                     // break the loop if Exception is other than input related exception.
                     break;
                 }
-                System.out.println("Please enter the input again:");
+                System.out.println("Please enter the delivery request again:");
             }
         }
 
@@ -52,7 +52,18 @@ public class KikiApplication {
     private static StringBuilder getUserInput() {
         StringBuilder sb = new StringBuilder();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your input, then type 'exit' on a new line to finish:");
+        System.out.println("Enter your delivery request according to standard format, then type 'exit' on a new line to finish:");
+        System.out.println("Standard format: ");
+        System.out.println("------------------------------------------------");
+        System.out.println("base_delivery_cost no_of_packges\n" +
+                "pkg_id1 pkg_weight1_in_kg distance1_in_km offer_code1\n" +
+                " ....");
+        System.out.println("---------------------OR-------------------------");
+        System.out.println("base_delivery_cost no_of_packges\n" +
+                "pkg_id1 pkg_weight1_in_kg distance1_in_km offer_code1\n" +
+                " ....\n" +
+                "no_of_vehicles max_speed max_carriable_weight");
+        System.out.println("------------------------------------------------");
 
         while (true) {
             String line = scanner.nextLine();
