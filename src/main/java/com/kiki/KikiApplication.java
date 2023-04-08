@@ -24,6 +24,22 @@ public class KikiApplication {
             System.out.println(DeliverySummary.getInstance().toString());
         } catch (Exception e){
             System.err.println("Error: " + e.getMessage());
+            if(e instanceof IllegalArgumentException){
+                System.out.println("Please input the details according to standard format.");
+                System.out.println("Standard format: ");
+                System.out.println("------------------------------------------------");
+                System.out.println("base_delivery_cost no_of_packges\n" +
+                        "pkg_id1 pkg_weight1_in_kg distance1_in_km offer_code1\n" +
+                        " ....");
+                System.out.println("---------------------OR-------------------------");
+                System.out.println("base_delivery_cost no_of_packges\n" +
+                        "pkg_id1 pkg_weight1_in_kg distance1_in_km offer_code1\n" +
+                        " ....\n" +
+                        "no_of_vehicles max_speed max_carriable_weight");
+                System.out.println("------------------------------------------------");
+
+
+            }
         }
     }
 
