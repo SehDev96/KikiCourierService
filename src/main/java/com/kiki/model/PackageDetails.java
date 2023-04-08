@@ -1,5 +1,7 @@
 package main.java.com.kiki.model;
 
+import java.util.List;
+
 public class PackageDetails {
     private String packageId;
     private int packageWeight;
@@ -11,6 +13,22 @@ public class PackageDetails {
         this.packageWeight = packageWeight;
         this.packageDistance = packageDistance;
         this.couponCode = couponCode;
+    }
+
+    public static int getTotalWeight(List<PackageDetails> packageDetailList){
+        int totalWeight = 0;
+        for(PackageDetails packageDetails:packageDetailList){
+            totalWeight += packageDetails.getPackageWeight();
+        }
+        return totalWeight;
+    }
+
+    public static int getClosestPackageDistance(List<PackageDetails> packageDetailsList){
+        int distance = 0;
+        for(PackageDetails packageDetails: packageDetailsList){
+            distance += packageDetails.getPackageDistance();
+        }
+        return distance;
     }
 
     public String getPackageId() {

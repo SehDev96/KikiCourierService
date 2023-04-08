@@ -1,10 +1,8 @@
 package test.java.com.kiki;
 
-import main.java.com.kiki.model.DeliveryOutput;
-import main.java.com.kiki.model.DeliveryRequest;
-import main.java.com.kiki.model.DeliverySummary;
-import main.java.com.kiki.model.PackageDetails;
+import main.java.com.kiki.model.*;
 import main.java.com.kiki.service.DeliveryService;
+import main.java.com.kiki.service.ShipmentManager;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -85,6 +83,31 @@ public class KikiApplicationTest {
         assertEquals(expectedDeliveryOutput3.getDiscount(),deliverySummary.getDeliveryOutputList().get(2).getDiscount());
         assertEquals(expectedDeliveryOutput3.getTotalCost(),deliverySummary.getDeliveryOutputList().get(2).getTotalCost());
 
+    }
+
+    @Test
+    public void testSortPackagesIntoShipments() {
+        PackageDetails pkg1 = new PackageDetails("PKG1", 50, 30, "OFR001");
+        PackageDetails pkg2 = new PackageDetails("PKG2", 75, 125, "OFR008");
+        PackageDetails pkg3 = new PackageDetails("PKG3", 175, 100, "OFR003");
+        PackageDetails pkg4 = new PackageDetails("PKG4", 110, 60, "OFR002");
+        PackageDetails pkg5 = new PackageDetails("PKG5", 155, 95, "NA");
+        List<PackageDetails> packageDetails = new ArrayList<>(List.of(pkg1, pkg2, pkg3, pkg4, pkg5));
+
+        ShipmentManager shipmentManager = new ShipmentManager();
+        List<Shipment> actualShipmentList = shipmentManager.sortPackagesIntoShipments(packageDetails);
+
+        Shipment shipment1 = new Shipment(List.of(pkg2, pkg4));
+        Shipment shipment2 = new Shipment(List.of(pkg3));
+        Shipment shipment3 = new Shipment(List.of(pkg5));
+        Shipment shipment4 = new Shipment(List.of(pkg1));
+        List<Shipment> expectedShipmentList = new ArrayList<>(List.of(shipment1, shipment2, shipment3, shipment4));
+
+        assertEquals(expectedShipmentList.get(0).getPackages().get(0).getPackageId(), actualShipmentList.get(0).getPackages().get(0).getPackageId());
+        assertEquals(expectedShipmentList.get(0).getPackages().get(1).getPackageId(), actualShipmentList.get(0).getPackages().get(1).getPackageId());
+        assertEquals(expectedShipmentList.get(1).getPackages().get(0).getPackageId(), actualShipmentList.get(1).getPackages().get(0).getPackageId());
+        assertEquals(expectedShipmentList.get(2).getPackages().get(0).getPackageId(), actualShipmentList.get(2).getPackages().get(0).getPackageId());
+        assertEquals(expectedShipmentList.get(3).getPackages().get(0).getPackageId(), actualShipmentList.get(3).getPackages().get(0).getPackageId());
     }
 
     @Test
