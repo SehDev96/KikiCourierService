@@ -1,8 +1,5 @@
 package main.java.com.kiki.model;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-
 public class DeliveryOutput {
     private String packageId;
     private int discount;
@@ -56,9 +53,6 @@ public class DeliveryOutput {
 
     public void setDeliveryTime(double deliveryTime) {
         this.deliveryTime = Math.round(deliveryTime*100.0)/100.0;
-//        DecimalFormat df = new DecimalFormat("#.##");
-//        df.setRoundingMode(RoundingMode.DOWN);
-//        this.deliveryTime = Double.parseDouble(df.format(deliveryTime));
     }
 
     public static DeliveryOutput getDeliveryOutputByPackageId(String packageId){
@@ -76,6 +70,12 @@ public class DeliveryOutput {
 
     @Override
     public String toString() {
-        return packageId + " " +discount+ " " + totalCost;
+        if(deliveryTime != 0.0){
+            return packageId + " " +discount+ " " + totalCost + " " + deliveryTime;
+
+        } else {
+            return packageId + " " +discount+ " " + totalCost;
+
+        }
     }
 }
