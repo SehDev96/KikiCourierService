@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 public class KikiApplicationTest {
 
@@ -30,6 +31,14 @@ public class KikiApplicationTest {
         assertEquals(10,DeliveryRequest.getInstance().getPackageDetailsList().get(2).getPackageWeight());
         assertEquals(100,DeliveryRequest.getInstance().getPackageDetailsList().get(2).getPackageDistance());
         assertEquals("OFR003",DeliveryRequest.getInstance().getPackageDetailsList().get(2).getCouponCode());
+
+        inputString = "100 2\n" +
+                "PKG1 5 5 OFR001\n" +
+                "PKG1 15 5 OFR002\n";
+        String finalInputString = inputString;
+        assertThrows(IllegalArgumentException.class, () -> {
+            DeliveryRequest.getInstance().parseDeliveryRequestFromString(finalInputString);
+        });
     }
 
     @Test

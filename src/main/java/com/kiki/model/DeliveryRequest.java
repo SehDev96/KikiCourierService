@@ -27,23 +27,21 @@ public class DeliveryRequest {
         return deliveryRequest;
     }
 
-    public DeliveryRequest parseDeliveryRequestFromString(String inputString) {
-        /*
-            inputString Format: "[package_id] [package_weight] [distance] [offer_code]"
-            inputString Format: "[package_id] [package_weight] [distance]"
-         */
+    public DeliveryRequest parseDeliveryRequestFromString(String inputString) throws NumberFormatException,IllegalArgumentException{
 
         if (inputString.isEmpty())
             throw new IllegalArgumentException("Input is empty. Please enter delivery request according to the standard input format");
+
         String[] inputStringArray = inputString.split("\n");
         if (inputStringArray.length > 0) {
             DeliveryRequest deliveryRequest = DeliveryRequest.getInstance();
 
             // last line of inputStringArray becomes the deciding factor if the input contains vehicle details
-            String lastLine = inputStringArray[inputStringArray.length-1];
+            // acceptable input vehicle details e.g [2 70 200]
+            String lastLine = inputStringArray[inputStringArray.length - 1];
             String[] lastLineArray = lastLine.split(" ");
-            if(lastLineArray.length==3){
-                if(ArrayUtils.isValidIntArray(lastLineArray)){
+            if (lastLineArray.length == 3) {
+                if (ArrayUtils.isValidIntArray(lastLineArray)) {
                     deliveryRequest.setNumberOfVehicles(Integer.parseInt(lastLineArray[0]));
                     deliveryRequest.setVehicleMaxSpeed(Integer.parseInt(lastLineArray[1]));
                     deliveryRequest.setVehicleMaxCarriableWeight(Integer.parseInt(lastLineArray[2]));
@@ -60,12 +58,19 @@ public class DeliveryRequest {
 
             List<PackageDetails> packageDetailsList = new ArrayList<>();
             for (int i = 1; i < inputStringArray.length; i++) {
+
                 String[] packageDetailsStringArray = inputStringArray[i].split(" ");
+
                 if (packageDetailsStringArray.length < 1 || packageDetailsStringArray.length > 4)
                     throw new IllegalArgumentException("Invalid Input. Package details not entered in proper format");
+
                 String packageId = packageDetailsStringArray[0];
+                // to ensure packageid are unique
+                if(PackageDetails.packageIdExists(packageId,packageDetailsList)) throw new IllegalArgumentException("Duplicated package id found. Please make sure package id's are unique");
+
                 int packageWeight = Integer.parseInt(packageDetailsStringArray[1]);
                 int distance = Integer.parseInt(packageDetailsStringArray[2]);
+
                 String couponCode = null;
                 if (packageDetailsStringArray.length > 3 && Coupons.couponOfferExists(packageDetailsStringArray[3])) {
                     couponCode = packageDetailsStringArray[3];
@@ -81,6 +86,8 @@ public class DeliveryRequest {
                 packageDetailsList.add(packageDetails);
             }
             deliveryRequest.setPackageDetailsList(packageDetailsList);
+
+            if(deliveryRequest.getNumberOfPackages() != deliveryRequest.getPackageDetailsList().size()) throw new IllegalArgumentException("Number of packages does not match the package details given");
 
             return deliveryRequest;
         }

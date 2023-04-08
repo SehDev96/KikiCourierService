@@ -11,16 +11,20 @@ import java.util.Scanner;
 
 public class KikiApplication {
     public static void main(String[] args) {
-        String inputString = getUserInput().toString();
-        DeliveryRequest deliveryRequest = DeliveryRequest.getInstance().parseDeliveryRequestFromString(inputString);
-        DeliveryService deliveryService = new DeliveryService();
-        deliveryService.calculateDeliveryCost(deliveryRequest);
-        if(deliveryRequest.getNumberOfVehicles()>0){
-            ShipmentManager shipmentManager = new ShipmentManager();
-            List<Shipment> shipmentList = shipmentManager.sortPackagesIntoShipments(deliveryRequest.getPackageDetailsList());
-            deliveryService.calculateDeliveryTime(shipmentList);
+        try {
+            String inputString = getUserInput().toString();
+            DeliveryRequest deliveryRequest = DeliveryRequest.getInstance().parseDeliveryRequestFromString(inputString);
+            DeliveryService deliveryService = new DeliveryService();
+            deliveryService.calculateDeliveryCost(deliveryRequest);
+            if (deliveryRequest.getNumberOfVehicles() > 0) {
+                ShipmentManager shipmentManager = new ShipmentManager();
+                List<Shipment> shipmentList = shipmentManager.sortPackagesIntoShipments(deliveryRequest.getPackageDetailsList());
+                deliveryService.calculateDeliveryTime(shipmentList);
+            }
+            System.out.println(DeliverySummary.getInstance().toString());
+        } catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
         }
-        System.out.println(DeliverySummary.getInstance().toString());
     }
 
     private static StringBuilder getUserInput() {

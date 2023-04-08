@@ -9,7 +9,7 @@ public class PackageDetails {
     String couponCode;
 
     public PackageDetails(String packageId, int packageWeight, int packageDistance, String couponCode) {
-        this.packageId = packageId;
+        this.packageId = packageId.toUpperCase();
         this.packageWeight = packageWeight;
         this.packageDistance = packageDistance;
         this.couponCode = couponCode;
@@ -31,35 +31,26 @@ public class PackageDetails {
         return distance;
     }
 
-    public String getPackageId() {
-        return packageId;
+    public static boolean packageIdExists(String packageId,List<PackageDetails> packageDetailsList){
+        for(PackageDetails packageDetails: packageDetailsList){
+            if(packageDetails.getPackageId().equalsIgnoreCase(packageId)) return true;
+        }
+        return false;
     }
 
-    public void setPackageId(String packageId) {
-        this.packageId = packageId;
+    public String getPackageId() {
+        return packageId;
     }
 
     public int getPackageWeight() {
         return packageWeight;
     }
 
-    public void setPackageWeight(int packageWeight) {
-        this.packageWeight = packageWeight;
-    }
-
     public int getPackageDistance() {
         return packageDistance;
     }
 
-    public void setPackageDistance(int packageDistance) {
-        this.packageDistance = packageDistance;
-    }
-
     public String getCouponCode() {
         return couponCode;
-    }
-
-    public void setCouponCode(String couponCode) {
-        this.couponCode = couponCode;
     }
 }
