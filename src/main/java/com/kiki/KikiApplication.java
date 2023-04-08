@@ -22,7 +22,11 @@ public class KikiApplication {
                     List<Shipment> shipmentList = shipmentManager.sortPackagesIntoShipments(deliveryRequest.getPackageDetailsList());
                     deliveryService.calculateDeliveryTime(shipmentList);
                 }
+                System.out.println("======================================================");
+                System.out.println("DELIVERY SUMMARY: ");
                 System.out.println(DeliverySummary.getInstance().toString());
+                System.out.println("======================================================");
+
                 break; // Exit the loop if everything was successful
             } catch (Exception e){
                 System.err.println("Error: " + e.getMessage());
@@ -52,18 +56,19 @@ public class KikiApplication {
     private static StringBuilder getUserInput() {
         StringBuilder sb = new StringBuilder();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your delivery request according to standard format, then type 'exit' on a new line to finish:");
         System.out.println("Standard format: ");
-        System.out.println("------------------------------------------------");
+        System.out.println("-----------------------------------------------------");
         System.out.println("base_delivery_cost no_of_packges\n" +
                 "pkg_id1 pkg_weight1_in_kg distance1_in_km offer_code1\n" +
                 " ....");
-        System.out.println("---------------------OR-------------------------");
+        System.out.println("---------------------OR------------------------------");
         System.out.println("base_delivery_cost no_of_packges\n" +
                 "pkg_id1 pkg_weight1_in_kg distance1_in_km offer_code1\n" +
                 " ....\n" +
                 "no_of_vehicles max_speed max_carriable_weight");
-        System.out.println("------------------------------------------------");
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Enter your delivery request according to standard format, then type 'exit' on a new line to finish:");
+
 
         while (true) {
             String line = scanner.nextLine();
